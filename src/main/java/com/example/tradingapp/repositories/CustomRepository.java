@@ -1,4 +1,4 @@
-package com.example.demo.repositories;
+package com.example.tradingapp.repositories;
 
 public interface CustomRepository<T> {
     T findById(int id);

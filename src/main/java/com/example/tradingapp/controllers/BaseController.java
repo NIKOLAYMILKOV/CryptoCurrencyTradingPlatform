@@ -1,8 +1,8 @@
-package com.example.demo.controllers;
+package com.example.tradingapp.controllers;
 
-import com.example.demo.exceptions.BadRequestException;
-import com.example.demo.exceptions.UnauthorisedException;
-import com.example.demo.model.dtos.ErrorDto;
+import com.example.tradingapp.exceptions.BadRequestException;
+import com.example.tradingapp.exceptions.UnauthorisedException;
+import com.example.tradingapp.model.dtos.ErrorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

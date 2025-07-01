@@ -1,7 +1,7 @@
-package com.example.demo.repositories;
+package com.example.tradingapp.repositories;
 
-import com.example.demo.exceptions.UnauthorisedException;
-import com.example.demo.model.User;
+import com.example.tradingapp.exceptions.UnauthorisedException;
+import com.example.tradingapp.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

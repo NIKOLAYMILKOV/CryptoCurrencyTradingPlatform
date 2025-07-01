@@ -1,7 +1,6 @@
-package com.example.demo.repositories;
+package com.example.tradingapp.repositories;
 
-import com.example.demo.model.User;
-import org.springframework.stereotype.Repository;
+import com.example.tradingapp.model.User;
 
 //@CustomRepository
 public interface UserRepository {

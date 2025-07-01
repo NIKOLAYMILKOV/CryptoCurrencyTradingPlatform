@@ -1,8 +1,8 @@
-package com.example.demo;
+package com.example.tradingapp;
 
-import com.example.demo.model.User;
-import com.example.demo.repositories.CustomRepository;
-import com.example.demo.repositories.DBUserRepository;
+import com.example.tradingapp.model.User;
+import com.example.tradingapp.repositories.CustomRepository;
+import com.example.tradingapp.repositories.DBUserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,10 +17,10 @@ import java.sql.SQLException;
 @SpringBootApplication
 @EnableScheduling
 @Configuration
-public class DemoApplication {
+public class TradingApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(TradingApplication.class, args);
 	}
 
 //	@Bean

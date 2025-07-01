@@ -1,10 +1,10 @@
-package com.example.demo.controllers;
+package com.example.tradingapp.controllers;
 
-import com.example.demo.exceptions.UnauthorisedException;
-import com.example.demo.model.dtos.LoginUserDTO;
-import com.example.demo.model.dtos.RegisterUserDTO;
-import com.example.demo.model.dtos.ResponseUserDTO;
-import com.example.demo.servises.UserService;
+import com.example.tradingapp.exceptions.UnauthorisedException;
+import com.example.tradingapp.model.dtos.LoginUserDTO;
+import com.example.tradingapp.model.dtos.RegisterUserDTO;
+import com.example.tradingapp.model.dtos.ResponseUserDTO;
+import com.example.tradingapp.servises.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;

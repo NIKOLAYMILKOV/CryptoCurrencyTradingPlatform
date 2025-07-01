@@ -1,12 +1,12 @@
-package com.example.demo.servises;
+package com.example.tradingapp.servises;
 
-import com.example.demo.exceptions.BadRequestException;
-import com.example.demo.exceptions.UnauthorisedException;
-import com.example.demo.model.User;
-import com.example.demo.model.dtos.LoginUserDTO;
-import com.example.demo.model.dtos.RegisterUserDTO;
-import com.example.demo.model.dtos.ResponseUserDTO;
-import com.example.demo.repositories.CustomRepository;
+import com.example.tradingapp.exceptions.BadRequestException;
+import com.example.tradingapp.exceptions.UnauthorisedException;
+import com.example.tradingapp.model.User;
+import com.example.tradingapp.model.dtos.LoginUserDTO;
+import com.example.tradingapp.model.dtos.RegisterUserDTO;
+import com.example.tradingapp.model.dtos.ResponseUserDTO;
+import com.example.tradingapp.repositories.CustomRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

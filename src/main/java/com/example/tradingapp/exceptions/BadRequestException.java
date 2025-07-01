@@ -1,4 +1,4 @@
-package com.example.demo.exceptions;
+package com.example.tradingapp.exceptions;
 
 public class BadRequestException extends RuntimeException {
     public BadRequestException(String message) {

@@ -1,4 +1,4 @@
-package com.example.demo.exceptions;
+package com.example.tradingapp.exceptions;
 
 public class UnauthorisedException extends RuntimeException {
     public UnauthorisedException(String message, Throwable cause) {

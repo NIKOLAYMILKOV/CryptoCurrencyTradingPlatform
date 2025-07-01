@@ -1,4 +1,4 @@
-package com.example.demo.controllers;
+package com.example.tradingapp.controllers;
 
 import org.springframework.stereotype.Controller;
 
