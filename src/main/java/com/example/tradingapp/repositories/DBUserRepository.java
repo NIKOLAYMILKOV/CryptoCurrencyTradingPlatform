@@ -1,5 +1,6 @@
 package com.example.tradingapp.repositories;
 
+import com.example.tradingapp.exceptions.BadRequestException;
 import com.example.tradingapp.exceptions.UnauthorisedException;
 import com.example.tradingapp.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,9 @@ public class DBUserRepository implements CustomRepository<User> {
             statement = connection.prepareStatement("SELECT * FROM users WHERE id=?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
+            if (!resultSet.next()) {
+                throw new BadRequestException("User does not exist");
+            }
             user = new User(resultSet.getInt("id"),
                 resultSet.getString("username"),
                 resultSet.getString("password"),

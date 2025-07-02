@@ -4,7 +4,7 @@ import com.example.tradingapp.exceptions.UnauthorisedException;
 import com.example.tradingapp.model.dtos.LoginUserDTO;
 import com.example.tradingapp.model.dtos.RegisterUserDTO;
 import com.example.tradingapp.model.dtos.ResponseUserDTO;
-import com.example.tradingapp.servises.UserService;
+import com.example.tradingapp.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,10 +41,11 @@ public class UserController extends BaseController {
         return userService.getById(userId);
     }
 
-    @DeleteMapping("/remove/{userId}")
-    public ResponseUserDTO delete(@PathVariable int userId, HttpSession session) {
+    @DeleteMapping("/remove")
+    public ResponseUserDTO delete(HttpSession session) {
         validateLogged(session);
-        return userService.delete(userId);
+        int id = (int) session.getAttribute(USER_ID);
+        return userService.delete(id);
     }
 
     @PutMapping("/reset")
@@ -55,7 +56,7 @@ public class UserController extends BaseController {
     }
 
     private void validateLogged(HttpSession session) {
-        if (!session.getAttribute(LOGGED).equals(true)) {
+        if (session.getAttribute(LOGGED) == null || !(boolean)session.getAttribute(LOGGED)) {
             throw new UnauthorisedException("Log in first");
         }
     }

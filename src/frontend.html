@@ -1,0 +1,19 @@
+<!-- Load SockJS -->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+
+<!-- Load STOMP over SockJS -->
+<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+
+<!-- Your code that uses Stomp -->
+<script>
+  const socket = new SockJS('http://localhost:8888/ws-stomp');
+  const stompClient = Stomp.over(socket);
+
+  stompClient.connect({}, function(frame) {
+    console.log('Connected: ' + frame);
+
+    stompClient.subscribe('/topic/price', function(message) {
+      console.log('Received message:', message.body);
+    });
+  });
+</script>

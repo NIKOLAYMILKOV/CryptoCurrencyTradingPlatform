@@ -1,4 +1,4 @@
-package com.example.tradingapp.servises;
+package com.example.tradingapp.services;
 
 import com.example.tradingapp.exceptions.BadRequestException;
 import com.example.tradingapp.exceptions.UnauthorisedException;

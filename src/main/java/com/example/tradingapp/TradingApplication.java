@@ -23,11 +23,6 @@ public class TradingApplication {
 		SpringApplication.run(TradingApplication.class, args);
 	}
 
-//	@Bean
-//	public UserRepository userRepository() {
-//		return new DBUserRepository();
-//	}
-
 	@Bean
 	public CustomRepository<User> userRepository() {
 		return new DBUserRepository();
@@ -35,7 +30,6 @@ public class TradingApplication {
 
 	@Bean
 	public Connection connection() {
-
 		Connection connection;
 		try	{
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -45,7 +39,6 @@ public class TradingApplication {
 		} catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
-
         return connection;
 	}
 
