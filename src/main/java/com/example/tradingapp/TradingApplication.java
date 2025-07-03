@@ -2,6 +2,7 @@ package com.example.tradingapp;
 
 import com.example.tradingapp.model.User;
 import com.example.tradingapp.repositories.CustomRepository;
+import com.example.tradingapp.repositories.DBTransactionRepository;
 import com.example.tradingapp.repositories.DBUserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
@@ -49,7 +50,12 @@ public class TradingApplication {
 	}
 
 	@Bean
-	ObjectMapper objectMapper() {
+	public ObjectMapper objectMapper() {
 		return new ObjectMapper();
+	}
+
+	@Bean
+	public DBTransactionRepository transactionRepository() {
+		return new DBTransactionRepository();
 	}
 }

@@ -70,6 +70,10 @@ public class UserService {
         return mapper.map(u, ResponseUserDTO.class);
     }
 
+    public void increaseBalance(double balance) {
+
+    }
+
     private void validateId(int id) {
         if (id <= 0) {
             throw new BadRequestException("Id cannot be non-positive");

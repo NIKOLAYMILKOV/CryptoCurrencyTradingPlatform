@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController extends BaseController {
-    public static final String LOGGED = "logged";
-    public static final String USER_ID = "user_id";
     @Autowired
     private UserService userService;
 
@@ -53,11 +51,5 @@ public class UserController extends BaseController {
         validateLogged(session);
         int id = (int) session.getAttribute(USER_ID);
         return userService.reset(id);
-    }
-
-    private void validateLogged(HttpSession session) {
-        if (session.getAttribute(LOGGED) == null || !(boolean)session.getAttribute(LOGGED)) {
-            throw new UnauthorisedException("Log in first");
-        }
     }
 }
