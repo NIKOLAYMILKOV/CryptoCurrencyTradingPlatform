@@ -138,4 +138,22 @@ public class DBUserRepository implements CustomRepository<User> {
         }
         return false;
     }
+
+    public boolean update(User u) {
+        PreparedStatement statement;
+        boolean isSuccessfulUpdate = false;
+        try {
+            statement = connection.prepareStatement("UPDATE users SET balance=? WHERE id=?");
+            statement.setDouble(1, u.getBalance());
+            statement.setInt(2, u.getId());
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected != 0) {
+                isSuccessfulUpdate = true;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return isSuccessfulUpdate;
+    }
 }

@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class Order {
+    private int userId;
     private String symbol;
     private double price;
     private double quantity;

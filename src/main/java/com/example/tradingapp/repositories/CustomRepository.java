@@ -13,4 +13,5 @@ public interface CustomRepository<T> {
 
     boolean existsByUsername(String username);
 
+    boolean update(T t);
 }

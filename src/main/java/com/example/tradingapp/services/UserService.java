@@ -2,6 +2,7 @@ package com.example.tradingapp.services;
 
 import com.example.tradingapp.exceptions.BadRequestException;
 import com.example.tradingapp.exceptions.UnauthorisedException;
+import com.example.tradingapp.model.Order;
 import com.example.tradingapp.model.User;
 import com.example.tradingapp.model.dtos.LoginUserDTO;
 import com.example.tradingapp.model.dtos.RegisterUserDTO;
@@ -70,8 +71,11 @@ public class UserService {
         return mapper.map(u, ResponseUserDTO.class);
     }
 
-    public void increaseBalance(double balance) {
-
+    public void decreaseBalance(Order order) {
+        User u = userRepository.findById(order.getUserId());
+        double priceToPay = order.getPrice() * order.getQuantity();
+        u.setBalance(u.getBalance() - priceToPay);
+        userRepository.update(u);
     }
 
     private void validateId(int id) {

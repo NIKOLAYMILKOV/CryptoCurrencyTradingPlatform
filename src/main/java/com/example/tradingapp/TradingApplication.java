@@ -5,6 +5,7 @@ import com.example.tradingapp.repositories.CustomRepository;
 import com.example.tradingapp.repositories.DBTransactionRepository;
 import com.example.tradingapp.repositories.DBUserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -51,7 +52,9 @@ public class TradingApplication {
 
 	@Bean
 	public ObjectMapper objectMapper() {
-		return new ObjectMapper();
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.registerModule(new JavaTimeModule());
+		return mapper;
 	}
 
 	@Bean

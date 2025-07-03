@@ -5,10 +5,10 @@ import com.example.tradingapp.model.TransactionMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,10 +51,15 @@ public class DBTransactionRepository {
             statement.setDouble(2, transaction.getQuantity());
             statement.setDouble(3, transaction.getPrice());
             statement.setString(4, transaction.getTransactionMethod().toString());
-            statement.setDate(5, Date.valueOf(transaction.getTimestamp().toLocalDate()));
+            statement.setTimestamp(5, Timestamp.valueOf(transaction.getTimestamp()));
             statement.setInt(6, transaction.getUserId());
+            statement.executeUpdate();
+            ResultSet resultSet = statement.getGeneratedKeys();
+            resultSet.next();
+            transaction.setTransactionId(resultSet.getInt(1));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        return transaction;
     }
 }
