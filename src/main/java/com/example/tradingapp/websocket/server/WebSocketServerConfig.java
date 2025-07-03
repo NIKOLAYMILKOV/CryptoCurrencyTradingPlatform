@@ -10,11 +10,11 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @EnableWebSocket
 public class WebSocketServerConfig implements WebSocketConfigurer {
     @Autowired
-    private final MyWebSocketHandler myWebSocketHandler;
+    private MyWebSocketHandler myWebSocketHandler;
 
-    public WebSocketServerConfig(MyWebSocketHandler myWebSocketHandler) {
-        this.myWebSocketHandler = myWebSocketHandler;
-    }
+//    public WebSocketServerConfig(MyWebSocketHandler myWebSocketHandler) {
+//        this.myWebSocketHandler = myWebSocketHandler;
+//    }
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {

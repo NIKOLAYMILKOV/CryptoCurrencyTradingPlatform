@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 @Repository
-public class DBUserRepository implements CustomRepository<User> {
+public class DBUserRepository implements UserRepository {
     private static final double DEFAULT_BALANCE = 10_000.0;
     @Autowired
     private Connection connection;
@@ -139,13 +139,14 @@ public class DBUserRepository implements CustomRepository<User> {
         return false;
     }
 
-    public boolean update(User u) {
+    @Override
+    public boolean updateBalance(int userId, double newBalance) {
         PreparedStatement statement;
         boolean isSuccessfulUpdate = false;
         try {
             statement = connection.prepareStatement("UPDATE users SET balance=? WHERE id=?");
-            statement.setDouble(1, u.getBalance());
-            statement.setInt(2, u.getId());
+            statement.setDouble(1, newBalance);
+            statement.setInt(2, userId);
             int rowsAffected = statement.executeUpdate();
 
             if (rowsAffected != 0) {

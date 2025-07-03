@@ -5,18 +5,23 @@ import com.example.tradingapp.websocket.server.MyWebSocketHandler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.AbstractWebSocketHandler;
 
-public class WebSocketApiHandler extends AbstractWebSocketHandler {
+@Component
+public class ExternalWebSocketApiHandler extends AbstractWebSocketHandler {
 
-    private final CryptoCurrencyDataService cryptoCurrencyDataService;
-    private final MyWebSocketHandler myWebSocketHandler;
+    private CryptoCurrencyDataService cryptoCurrencyDataService;
+    private MyWebSocketHandler myWebSocketHandler;
 
-    public WebSocketApiHandler(MyWebSocketHandler myWebSocketHandler) {
+    @Autowired
+    public ExternalWebSocketApiHandler(MyWebSocketHandler myWebSocketHandler,
+                                       CryptoCurrencyDataService cryptoCurrencyDataService) {
         this.myWebSocketHandler = myWebSocketHandler;
-        this.cryptoCurrencyDataService = new CryptoCurrencyDataService();
+        this.cryptoCurrencyDataService = cryptoCurrencyDataService;
     }
 
     @Override
@@ -56,8 +61,6 @@ public class WebSocketApiHandler extends AbstractWebSocketHandler {
 
     @Override
     public void handleTextMessage(@NonNull WebSocketSession session, TextMessage message) {
-        System.out.println("Received from external API: " + message.getPayload());
-
         String processed = processMessage(message.getPayload());
         if (processed != null) {
             String msg;

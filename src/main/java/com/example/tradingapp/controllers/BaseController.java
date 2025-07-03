@@ -2,7 +2,7 @@ package com.example.tradingapp.controllers;
 
 import com.example.tradingapp.exceptions.BadRequestException;
 import com.example.tradingapp.exceptions.UnauthorisedException;
-import com.example.tradingapp.model.dtos.ErrorDto;
+import com.example.tradingapp.model.dtos.ErrorDTO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +14,16 @@ public class BaseController {
     public static final String USER_ID = "user_id";
 
     @ExceptionHandler(exception = UnauthorisedException.class)
-    public ResponseEntity<ErrorDto> unauthorisedHandler(Exception e) {
-        ErrorDto errorDto = new ErrorDto();
+    public ResponseEntity<ErrorDTO> unauthorisedHandler(Exception e) {
+        ErrorDTO errorDto = new ErrorDTO();
         errorDto.setMessage(e.getMessage());
         errorDto.setStatusCode(HttpStatus.UNAUTHORIZED.value());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(errorDto);
     }
 
     @ExceptionHandler(exception = BadRequestException.class)
-    public ResponseEntity<ErrorDto> badRequestHandler(Exception e) {
-        ErrorDto errorDto = new ErrorDto();
+    public ResponseEntity<ErrorDTO> badRequestHandler(Exception e) {
+        ErrorDTO errorDto = new ErrorDTO();
         errorDto.setMessage(e.getMessage());
         errorDto.setStatusCode(HttpStatus.BAD_REQUEST.value());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(errorDto);

@@ -1,7 +1,6 @@
 package com.example.tradingapp.websocket.server;
 
 import lombok.NonNull;
-import org.modelmapper.internal.bytebuddy.utility.nullability.NeverNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;

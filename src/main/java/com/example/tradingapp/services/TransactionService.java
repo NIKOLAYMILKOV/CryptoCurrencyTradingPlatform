@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class TransactionService {
@@ -20,13 +21,20 @@ public class TransactionService {
     private ModelMapper mapper;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CryptoCurrencyDataService cryptoCurrencyDataService;
 
     public Transaction buy(Order order) {
         ResponseUserDTO u = userService.getById(order.getUserId());
-        if (u.getBalance() < order.getPrice() * order.getQuantity()) {
+        System.out.println(order.getSymbol());
+        double price = cryptoCurrencyDataService.getCryptoCurrencyDataBySymbol(order.getSymbol()).getBid();
+        if (u.getBalance() < price * order.getQuantity()) {
             throw new BadRequestException("Not enough balance");
         }
-        userService.decreaseBalance(order);
+
+        double newBalance = u.getBalance() - price * order.getQuantity();
+        userService.updateBalance(order.getUserId(), newBalance);
+
         Transaction transaction = mapper.map(order, Transaction.class);
         transaction.setTransactionMethod(TransactionMethod.BUY);
         transaction.setTimestamp(LocalDateTime.now());
@@ -34,16 +42,21 @@ public class TransactionService {
         return transactionRepository.add(transaction);
     }
 
-    public Transaction sell(Order order) {
-        ResponseUserDTO u = userService.getById(order.getUserId());
-        if (u.getBalance() < order.getPrice() * order.getQuantity()) {
-            throw new BadRequestException("Not enough balance");
-        }
-        userService.decreaseBalance(order);
-        Transaction transaction = mapper.map(order, Transaction.class);
-        transaction.setTransactionMethod(TransactionMethod.BUY);
-        transaction.setTimestamp(LocalDateTime.now());
-
-        return transactionRepository.add(transaction);
+    public List<Transaction> transactions(int userId) {
+        return transactionRepository.findAllByUserId(userId);
     }
+
+//    public Transaction sell(Order order) {
+////        ResponseUserDTO u = userService.getById(order.getUserId());
+////        double price = cryptoCurrencyDataService.getCryptoCurrencyDataBySymbol(order.getSymbol()).getAsk();
+//////        if (u.getBalance() < order.getPrice() * order.getQuantity()) {
+//////            throw new BadRequestException("Not enough balance");
+//////        }
+////        userService.decreaseBalance(order);
+////        Transaction transaction = mapper.map(order, Transaction.class);
+////        transaction.setTransactionMethod(TransactionMethod.BUY);
+////        transaction.setTimestamp(LocalDateTime.now());
+////
+////        return transactionRepository.add(transaction);
+//    }
 }

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ErrorDto {
+public class ErrorDTO {
     private int statusCode;
     private String message;
 }

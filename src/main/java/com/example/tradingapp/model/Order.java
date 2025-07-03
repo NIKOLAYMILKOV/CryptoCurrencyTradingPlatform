@@ -10,6 +10,5 @@ import lombok.Setter;
 public class Order {
     private int userId;
     private String symbol;
-    private double price;
     private double quantity;
 }

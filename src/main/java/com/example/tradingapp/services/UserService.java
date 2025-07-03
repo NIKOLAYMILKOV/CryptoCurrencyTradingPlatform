@@ -2,12 +2,11 @@ package com.example.tradingapp.services;
 
 import com.example.tradingapp.exceptions.BadRequestException;
 import com.example.tradingapp.exceptions.UnauthorisedException;
-import com.example.tradingapp.model.Order;
 import com.example.tradingapp.model.User;
 import com.example.tradingapp.model.dtos.LoginUserDTO;
 import com.example.tradingapp.model.dtos.RegisterUserDTO;
 import com.example.tradingapp.model.dtos.ResponseUserDTO;
-import com.example.tradingapp.repositories.CustomRepository;
+import com.example.tradingapp.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     @Autowired
-    private CustomRepository<User> userRepository;
+    private UserRepository userRepository;
     @Autowired
     private ModelMapper mapper;
 
@@ -71,11 +70,8 @@ public class UserService {
         return mapper.map(u, ResponseUserDTO.class);
     }
 
-    public void decreaseBalance(Order order) {
-        User u = userRepository.findById(order.getUserId());
-        double priceToPay = order.getPrice() * order.getQuantity();
-        u.setBalance(u.getBalance() - priceToPay);
-        userRepository.update(u);
+    public void updateBalance(int id, double newBalance) {
+        userRepository.updateBalance(id, newBalance);
     }
 
     private void validateId(int id) {

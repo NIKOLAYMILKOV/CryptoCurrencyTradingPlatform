@@ -1,16 +1,16 @@
 package com.example.tradingapp.controllers;
 
 import com.example.tradingapp.model.Order;
-import com.example.tradingapp.model.Symbol;
 import com.example.tradingapp.model.Transaction;
-import com.example.tradingapp.model.dtos.ResponseUserDTO;
-import com.example.tradingapp.repositories.DBTransactionRepository;
 import com.example.tradingapp.services.TransactionService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class TransactionController extends BaseController {
@@ -24,5 +24,12 @@ public class TransactionController extends BaseController {
         int userId = (int) session.getAttribute(USER_ID);
         order.setUserId(userId);
         return transactionService.buy(order);
+    }
+
+    @GetMapping("transactions/history")
+    public List<Transaction> transactionHistory(HttpSession session) {
+        validateLogged(session);
+        int userId = (int) session.getAttribute(USER_ID);
+        return transactionService.transactions(userId);
     }
 }

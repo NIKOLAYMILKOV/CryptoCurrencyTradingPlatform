@@ -13,19 +13,15 @@ import java.util.concurrent.ConcurrentMap;
 public class CryptoCurrencyDataService {
     public static final int INITIAL_CAPACITY = 1000;
     public static final float LOAD_FACTOR = 0.75f;
-    private final ConcurrentMap<String, CryptoCurrencyInfo> priceMap;
+
+    private ConcurrentMap<String, CryptoCurrencyInfo> priceMap;
 
     public CryptoCurrencyDataService() {
         priceMap = new ConcurrentHashMap<>(INITIAL_CAPACITY, LOAD_FACTOR);
-//        System.out.println("JJHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
     }
 
-    public ConcurrentMap<String, CryptoCurrencyInfo> update(String symbol, CryptoCurrencyInfo cryptoCurrencyData) {
-        if(priceMap == null) {
-            throw new IllegalArgumentException("map null");
-        }
+    public void update(String symbol, CryptoCurrencyInfo cryptoCurrencyData) {
         priceMap.put(symbol, cryptoCurrencyData);
-        return priceMap;
     }
 
     public ConcurrentMap<String, CryptoCurrencyInfo> update(String updateMessage) {
@@ -33,18 +29,17 @@ public class CryptoCurrencyDataService {
         UpdateMessageDTO updateMessageDTO;
         try {
             updateMessageDTO = mapper.readValue(updateMessage, UpdateMessageDTO.class);
-            System.out.println("UPDATE MESSAGE" + updateMessage);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(updateMessageDTO.getData());
-        updateMessageDTO.getData()
-            .forEach(cryptoCurrencyInfo -> update(cryptoCurrencyInfo.getSymbol(), cryptoCurrencyInfo));
 
+        for (CryptoCurrencyInfo currencyInfo : updateMessageDTO.getData()) {
+            update(currencyInfo.getSymbol(), currencyInfo);
+        }
         return priceMap;
     }
 
     public CryptoCurrencyInfo getCryptoCurrencyDataBySymbol(String symbol) {
-        return priceMap.getOrDefault(symbol, null);
+        return priceMap.get(symbol);
     }
 }
