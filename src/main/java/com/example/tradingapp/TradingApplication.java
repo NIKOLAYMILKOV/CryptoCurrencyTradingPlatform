@@ -1,12 +1,8 @@
 package com.example.tradingapp;
 
-import com.example.tradingapp.model.User;
-import com.example.tradingapp.repositories.CustomRepository;
 import com.example.tradingapp.repositories.DBTransactionRepository;
 import com.example.tradingapp.repositories.DBUserRepository;
 import com.example.tradingapp.repositories.UserRepository;
-import com.example.tradingapp.services.CryptoCurrencyDataService;
-import com.example.tradingapp.websocket.server.MyWebSocketHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.modelmapper.ModelMapper;
@@ -64,14 +60,5 @@ public class TradingApplication {
 	public DBTransactionRepository transactionRepository() {
 		return new DBTransactionRepository();
 	}
-
-//	@Bean
-//	public CryptoCurrencyDataService cryptoCurrencyDataService() {
-//		return new CryptoCurrencyDataService();
-//	}
-//
-//	@Bean
-//	public MyWebSocketHandler myWebSocketHandler() {
-//		return new MyWebSocketHandler();
-//	}
+	
 }

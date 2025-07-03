@@ -1,6 +1,7 @@
 package com.example.tradingapp.services;
 
 import com.example.tradingapp.exceptions.BadRequestException;
+import com.example.tradingapp.model.User;
 import com.example.tradingapp.model.dtos.OrderDTO;
 import com.example.tradingapp.model.Transaction;
 import com.example.tradingapp.model.TransactionMethod;
@@ -24,7 +25,7 @@ public class TransactionService {
     @Autowired
     private CryptoCurrencyDataService cryptoCurrencyDataService;
 
-    public Transaction buy(OrderDTO order) {
+    public ResponseUserDTO buy(OrderDTO order) {
         ResponseUserDTO u = userService.getById(order.getUserId());
         System.out.println(order.getSymbol());
         double price = cryptoCurrencyDataService.getCryptoCurrencyDataBySymbol(order.getSymbol()).getBid();
@@ -33,13 +34,13 @@ public class TransactionService {
         }
 
         double newBalance = u.getBalance() - price * order.getQuantity();
-        userService.updateBalance(order.getUserId(), newBalance);
+        User user = userService.updateBalance(order.getUserId(), newBalance);
 
         Transaction transaction = mapper.map(order, Transaction.class);
         transaction.setTransactionMethod(TransactionMethod.BUY);
         transaction.setTimestamp(LocalDateTime.now());
-
-        return transactionRepository.add(transaction);
+        transactionRepository.add(transaction);
+        return mapper.map(user, ResponseUserDTO.class);
     }
 
     public List<Transaction> transactions(int userId) {

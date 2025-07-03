@@ -140,8 +140,9 @@ public class DBUserRepository implements UserRepository {
     }
 
     @Override
-    public boolean updateBalance(int userId, double newBalance) {
+    public User updateBalance(int userId, double newBalance) {
         PreparedStatement statement;
+        User u;
         boolean isSuccessfulUpdate = false;
         try {
             statement = connection.prepareStatement("UPDATE users SET balance=? WHERE id=?");
@@ -149,12 +150,20 @@ public class DBUserRepository implements UserRepository {
             statement.setInt(2, userId);
             int rowsAffected = statement.executeUpdate();
 
-            if (rowsAffected != 0) {
-                isSuccessfulUpdate = true;
+            if (rowsAffected == 0) {
+                throw new RuntimeException("Could not reset");
             }
+            statement = connection.prepareStatement("SELECT * FROM users WHERE id=?");
+            statement.setInt(1, userId);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            u = new User(resultSet.getInt("id"),
+                        resultSet.getString("username"),
+                        resultSet.getString("password"),
+                        resultSet.getDouble("balance"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return isSuccessfulUpdate;
+        return u;
     }
 }

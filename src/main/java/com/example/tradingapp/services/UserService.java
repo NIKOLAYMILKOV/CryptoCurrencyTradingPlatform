@@ -70,8 +70,8 @@ public class UserService {
         return mapper.map(u, ResponseUserDTO.class);
     }
 
-    public void updateBalance(int id, double newBalance) {
-        userRepository.updateBalance(id, newBalance);
+    public User updateBalance(int id, double newBalance) {
+        return userRepository.updateBalance(id, newBalance);
     }
 
     private void validateId(int id) {
