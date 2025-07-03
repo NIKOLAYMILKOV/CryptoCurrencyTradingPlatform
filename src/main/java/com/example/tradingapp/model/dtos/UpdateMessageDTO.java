@@ -1,6 +1,5 @@
-package com.example.tradingapp.model;
+package com.example.tradingapp.model.dtos;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,5 +17,5 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UpdateMessageDTO {
     @Autowired
-    private List<CryptoCurrencyInfo> data = new ArrayList<>();
+    private List<CryptoCurrencyInfoDTO> data = new ArrayList<>();
 }

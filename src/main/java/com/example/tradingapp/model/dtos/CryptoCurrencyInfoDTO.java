@@ -1,4 +1,4 @@
-package com.example.tradingapp.model;
+package com.example.tradingapp.model.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CryptoCurrencyInfo {
+public class CryptoCurrencyInfoDTO {
     private String symbol;
     private double bid;
     private double ask;

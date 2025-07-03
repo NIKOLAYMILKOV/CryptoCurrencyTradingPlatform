@@ -1,4 +1,4 @@
-package com.example.tradingapp.model;
+package com.example.tradingapp.model.dtos;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Order {
+public class OrderDTO {
     private int userId;
     private String symbol;
     private double quantity;

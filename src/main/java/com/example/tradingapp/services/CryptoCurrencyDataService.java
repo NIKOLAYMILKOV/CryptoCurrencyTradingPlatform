@@ -1,7 +1,7 @@
 package com.example.tradingapp.services;
 
-import com.example.tradingapp.model.CryptoCurrencyInfo;
-import com.example.tradingapp.model.UpdateMessageDTO;
+import com.example.tradingapp.model.dtos.CryptoCurrencyInfoDTO;
+import com.example.tradingapp.model.dtos.UpdateMessageDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
@@ -14,17 +14,17 @@ public class CryptoCurrencyDataService {
     public static final int INITIAL_CAPACITY = 1000;
     public static final float LOAD_FACTOR = 0.75f;
 
-    private ConcurrentMap<String, CryptoCurrencyInfo> priceMap;
+    private ConcurrentMap<String, CryptoCurrencyInfoDTO> priceMap;
 
     public CryptoCurrencyDataService() {
         priceMap = new ConcurrentHashMap<>(INITIAL_CAPACITY, LOAD_FACTOR);
     }
 
-    public void update(String symbol, CryptoCurrencyInfo cryptoCurrencyData) {
+    public void update(String symbol, CryptoCurrencyInfoDTO cryptoCurrencyData) {
         priceMap.put(symbol, cryptoCurrencyData);
     }
 
-    public ConcurrentMap<String, CryptoCurrencyInfo> update(String updateMessage) {
+    public ConcurrentMap<String, CryptoCurrencyInfoDTO> update(String updateMessage) {
         ObjectMapper mapper = new ObjectMapper();
         UpdateMessageDTO updateMessageDTO;
         try {
@@ -33,13 +33,13 @@ public class CryptoCurrencyDataService {
             throw new RuntimeException(e);
         }
 
-        for (CryptoCurrencyInfo currencyInfo : updateMessageDTO.getData()) {
+        for (CryptoCurrencyInfoDTO currencyInfo : updateMessageDTO.getData()) {
             update(currencyInfo.getSymbol(), currencyInfo);
         }
         return priceMap;
     }
 
-    public CryptoCurrencyInfo getCryptoCurrencyDataBySymbol(String symbol) {
+    public CryptoCurrencyInfoDTO getCryptoCurrencyDataBySymbol(String symbol) {
         return priceMap.get(symbol);
     }
 }

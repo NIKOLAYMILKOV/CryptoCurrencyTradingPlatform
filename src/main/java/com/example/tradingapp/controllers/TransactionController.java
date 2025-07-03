@@ -1,6 +1,6 @@
 package com.example.tradingapp.controllers;
 
-import com.example.tradingapp.model.Order;
+import com.example.tradingapp.model.dtos.OrderDTO;
 import com.example.tradingapp.model.Transaction;
 import com.example.tradingapp.services.TransactionService;
 import jakarta.servlet.http.HttpSession;
@@ -19,7 +19,7 @@ public class TransactionController extends BaseController {
     TransactionService transactionService;
 
     @PostMapping("/buy")
-    public Transaction buy(@RequestBody Order order, HttpSession session) {
+    public Transaction buy(@RequestBody OrderDTO order, HttpSession session) {
         validateLogged(session);
         int userId = (int) session.getAttribute(USER_ID);
         order.setUserId(userId);

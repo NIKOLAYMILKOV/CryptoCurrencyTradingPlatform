@@ -1,7 +1,7 @@
 package com.example.tradingapp.services;
 
 import com.example.tradingapp.exceptions.BadRequestException;
-import com.example.tradingapp.model.Order;
+import com.example.tradingapp.model.dtos.OrderDTO;
 import com.example.tradingapp.model.Transaction;
 import com.example.tradingapp.model.TransactionMethod;
 import com.example.tradingapp.model.dtos.ResponseUserDTO;
@@ -24,7 +24,7 @@ public class TransactionService {
     @Autowired
     private CryptoCurrencyDataService cryptoCurrencyDataService;
 
-    public Transaction buy(Order order) {
+    public Transaction buy(OrderDTO order) {
         ResponseUserDTO u = userService.getById(order.getUserId());
         System.out.println(order.getSymbol());
         double price = cryptoCurrencyDataService.getCryptoCurrencyDataBySymbol(order.getSymbol()).getBid();
@@ -46,7 +46,7 @@ public class TransactionService {
         return transactionRepository.findAllByUserId(userId);
     }
 
-//    public Transaction sell(Order order) {
+//    public Transaction sell(OrderDTO order) {
 ////        ResponseUserDTO u = userService.getById(order.getUserId());
 ////        double price = cryptoCurrencyDataService.getCryptoCurrencyDataBySymbol(order.getSymbol()).getAsk();
 //////        if (u.getBalance() < order.getPrice() * order.getQuantity()) {
