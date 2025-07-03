@@ -9,6 +9,8 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 @Service
 public class ExternalWebSocketClient {
 
+    private static final String APU_URL = "wss://ws.kraken.com/v2";
+
     private final MyWebSocketHandler myWebSocketHandler;
 
     public ExternalWebSocketClient(MyWebSocketHandler myWebSocketHandler) {
@@ -19,6 +21,6 @@ public class ExternalWebSocketClient {
     public void start() {
         StandardWebSocketClient client = new StandardWebSocketClient();
         WebSocketHandler handler = new WebSocketApiHandler(myWebSocketHandler);
-        client.execute(handler, "wss://ws.kraken.com/v2");
+        client.execute(handler, APU_URL);
     }
 }

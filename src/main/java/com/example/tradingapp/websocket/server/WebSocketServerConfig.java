@@ -8,7 +8,6 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 
 @Configuration
 @EnableWebSocket
-//@EnableWebSocketMessageBroker
 public class WebSocketServerConfig implements WebSocketConfigurer {
     @Autowired
     private final MyWebSocketHandler myWebSocketHandler;
@@ -19,6 +18,6 @@ public class WebSocketServerConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(myWebSocketHandler, "/endpoint").setAllowedOrigins("*");
+        registry.addHandler(myWebSocketHandler, "/live_data").setAllowedOrigins("*");
     }
 }

@@ -4,6 +4,7 @@ import com.example.tradingapp.model.User;
 import com.example.tradingapp.repositories.CustomRepository;
 import com.example.tradingapp.repositories.DBTransactionRepository;
 import com.example.tradingapp.repositories.DBUserRepository;
+import com.example.tradingapp.services.CryptoCurrencyDataService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.modelmapper.ModelMapper;
@@ -60,5 +61,10 @@ public class TradingApplication {
 	@Bean
 	public DBTransactionRepository transactionRepository() {
 		return new DBTransactionRepository();
+	}
+
+	@Bean
+	public CryptoCurrencyDataService cryptoCurrencyDataService() {
+		return new CryptoCurrencyDataService();
 	}
 }
