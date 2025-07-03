@@ -1,25 +1,24 @@
 package com.example.tradingapp.websocket.server;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.simp.config.MessageBrokerRegistry;
-import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
-import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
-import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
 @Configuration
-@EnableWebSocketMessageBroker
-public class WebSocketServerConfig implements WebSocketMessageBrokerConfigurer {
-    @Override
-    public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic");        // Enables in-memory broker for topics
-        config.setApplicationDestinationPrefixes("/app"); // Prefix for messages sent from clients to server (not needed for you now)
+@EnableWebSocket
+//@EnableWebSocketMessageBroker
+public class WebSocketServerConfig implements WebSocketConfigurer {
+    @Autowired
+    private final MyWebSocketHandler myWebSocketHandler;
+
+    public WebSocketServerConfig(MyWebSocketHandler myWebSocketHandler) {
+        this.myWebSocketHandler = myWebSocketHandler;
     }
 
     @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws-stomp")  // The URL your clients connect to
-            .setAllowedOriginPatterns("*")   // Allow any origin (dev only)
-            .withSockJS();
-        System.out.println("hello"); // Enables fallback for browsers without WS support
+    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+        registry.addHandler(myWebSocketHandler, "/endpoint").setAllowedOrigins("*");
     }
 }

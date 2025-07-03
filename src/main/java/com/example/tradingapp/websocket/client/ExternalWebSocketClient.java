@@ -1,8 +1,7 @@
 package com.example.tradingapp.websocket.client;
 
-import com.example.tradingapp.websocket.server.MessageSender;
+import com.example.tradingapp.websocket.server.MyWebSocketHandler;
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
@@ -10,15 +9,16 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 @Service
 public class ExternalWebSocketClient {
 
-    private static final String API_URL = "wss://ws.kraken.com/v2";
+    private final MyWebSocketHandler myWebSocketHandler;
 
-    @Autowired
-    private MessageSender messageSender;
+    public ExternalWebSocketClient(MyWebSocketHandler myWebSocketHandler) {
+        this.myWebSocketHandler = myWebSocketHandler;
+    }
 
     @PostConstruct
     public void start() {
         StandardWebSocketClient client = new StandardWebSocketClient();
-        WebSocketHandler handler = new CustomWebSocketHandler(messageSender);
-        client.execute(handler, API_URL);
+        WebSocketHandler handler = new WebSocketApiHandler(myWebSocketHandler);
+        client.execute(handler, "wss://ws.kraken.com/v2");
     }
 }

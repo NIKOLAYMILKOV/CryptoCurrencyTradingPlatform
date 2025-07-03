@@ -3,6 +3,7 @@ package com.example.tradingapp;
 import com.example.tradingapp.model.User;
 import com.example.tradingapp.repositories.CustomRepository;
 import com.example.tradingapp.repositories.DBUserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -45,5 +46,10 @@ public class TradingApplication {
 	@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
+	}
+
+	@Bean
+	ObjectMapper objectMapper() {
+		return new ObjectMapper();
 	}
 }
