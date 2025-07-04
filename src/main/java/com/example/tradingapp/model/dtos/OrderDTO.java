@@ -10,5 +10,5 @@ import lombok.Setter;
 public class OrderDTO {
     private int userId;
     private String symbol;
-    private double quantity;
+    private Double quantity;
 }

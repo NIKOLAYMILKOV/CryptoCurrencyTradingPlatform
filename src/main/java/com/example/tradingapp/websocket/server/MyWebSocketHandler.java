@@ -33,7 +33,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
                     try {
                         session.sendMessage(new TextMessage(message));
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        throw new RuntimeException(e.getMessage(), e);
                     }
                 }
             }

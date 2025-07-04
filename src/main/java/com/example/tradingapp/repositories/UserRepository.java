@@ -2,7 +2,6 @@ package com.example.tradingapp.repositories;
 
 import com.example.tradingapp.model.User;
 
-//@CustomRepository
 public interface UserRepository {
     User findById(int id);
 

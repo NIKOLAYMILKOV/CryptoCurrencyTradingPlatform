@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DBTransactionRepository {
+public class DBTransactionRepository implements TransactionRepository {
 
     @Autowired
     private Connection connection;
@@ -61,5 +61,17 @@ public class DBTransactionRepository {
             throw new RuntimeException(e);
         }
         return transaction;
+    }
+
+    public void deleteByUserId(int userId) {
+        PreparedStatement statement;
+
+        try {
+            statement = connection.prepareStatement("DELETE FROM transactions WHERE user_id=?");
+            statement.setInt(1, userId);
+            statement.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

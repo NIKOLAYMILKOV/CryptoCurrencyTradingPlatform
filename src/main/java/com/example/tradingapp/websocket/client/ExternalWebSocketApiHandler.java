@@ -67,7 +67,7 @@ public class ExternalWebSocketApiHandler extends AbstractWebSocketHandler {
             try {
                 msg = new ObjectMapper().writeValueAsString(cryptoCurrencyDataService.update(processed));
             } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Could not parse json message - " + e.getMessage(), e);
             }
             myWebSocketHandler.broadcast(msg);
         }

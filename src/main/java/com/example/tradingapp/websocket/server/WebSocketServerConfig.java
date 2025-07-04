@@ -12,10 +12,6 @@ public class WebSocketServerConfig implements WebSocketConfigurer {
     @Autowired
     private MyWebSocketHandler myWebSocketHandler;
 
-//    public WebSocketServerConfig(MyWebSocketHandler myWebSocketHandler) {
-//        this.myWebSocketHandler = myWebSocketHandler;
-//    }
-
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(myWebSocketHandler, "/live_data").setAllowedOrigins("*");

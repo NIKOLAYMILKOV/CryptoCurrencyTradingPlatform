@@ -14,7 +14,7 @@ public class DigitalAssetService {
     @Autowired
     private DigitalAssetRepository digitalAssetRepository;
 
-    List<DigitalAsset> getAllByUserId(int userId) {
+    public List<DigitalAsset> getAllByUserId(int userId) {
         return digitalAssetRepository.findAllByUserId(userId);
     }
 
@@ -22,11 +22,8 @@ public class DigitalAssetService {
         if (symbol == null || symbol.isBlank()) {
             throw new BadRequestException("Symbol is mandatory");
         }
-        DigitalAsset asset = digitalAssetRepository.findBySymbolAndUserId(symbol, userId);
-//        if (asset == null) {
-//            throw new BadRequestException("You do not own asset with symbol");
-//        }
-        return asset;
+
+        return digitalAssetRepository.findBySymbolAndUserId(symbol, userId);
     }
 
     public DigitalAsset buy(DigitalAsset boughtAsset) {
@@ -40,10 +37,28 @@ public class DigitalAssetService {
 
     public DigitalAsset sell(DigitalAsset soldAsset) {
         DigitalAsset digitalAsset = findBySymbolAndUserId(soldAsset.getSymbol(), soldAsset.getUserId());
-        if (Double.compare(digitalAsset.getQuantity(), soldAsset.getQuantity()) <= 0) {
+        if (digitalAsset == null) {
+            throw new BadRequestException("You do not own asset with symbol");
+        }
+        if (Double.compare(digitalAsset.getQuantity(), soldAsset.getQuantity()) < 0) {
             throw new BadRequestException("Owned quantity is less than the selling quantity");
         }
         digitalAsset.setQuantity(digitalAsset.getQuantity() - soldAsset.getQuantity());
         return digitalAssetRepository.edit(digitalAsset);
+    }
+
+    public void validateOrder(DigitalAsset asset) {
+        if (asset == null) {
+            throw new BadRequestException("Incorrect input");
+        }
+        if (asset.getQuantity() == null || asset.getQuantity() < 0.0) {
+            throw new BadRequestException("Quantity is mandatory and cannot be less than or equal to 0)");
+        }
+        if (asset.getSymbol() == null || asset.getSymbol().isBlank()) {
+            throw new BadRequestException("Symbol is mandatory");
+        }
+        if (asset.getUserId() <= 0) {
+            throw new BadRequestException("Invalid user id");
+        }
     }
 }

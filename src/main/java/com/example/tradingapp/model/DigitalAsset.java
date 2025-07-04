@@ -24,7 +24,7 @@ public class DigitalAsset {
     @Column
     private String symbol;
     @Column
-    private double quantity;
+    private Double quantity;
     @Column
     private int userId;
 }

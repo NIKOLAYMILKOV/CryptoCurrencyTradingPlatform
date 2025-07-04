@@ -3,6 +3,7 @@ package com.example.tradingapp.repositories;
 import com.example.tradingapp.exceptions.BadRequestException;
 import com.example.tradingapp.exceptions.UnauthorisedException;
 import com.example.tradingapp.model.User;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +18,10 @@ public class DBUserRepository implements UserRepository {
     private static final double DEFAULT_BALANCE = 10_000.0;
     @Autowired
     private Connection connection;
+    @Autowired
+    private TransactionRepository transactionRepository;
+    @Autowired
+    private DigitalAssetRepository digitalAssetRepository;
 
     @Override
     public User findById(int id) {
@@ -84,6 +89,7 @@ public class DBUserRepository implements UserRepository {
     }
 
     @Override
+    @Transactional
     public User reset(int id) {
         PreparedStatement statement;
         User user;
@@ -95,6 +101,9 @@ public class DBUserRepository implements UserRepository {
             if (affectedRows == 0) {
                 throw new RuntimeException("ERROR, could not reset user"); //TODO add exception
             }
+            transactionRepository.deleteByUserId(id);
+            digitalAssetRepository.deleteByUserId(id);
+
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
         }
@@ -126,6 +135,7 @@ public class DBUserRepository implements UserRepository {
     @Override
     public boolean existsByUsername(String username) {
         PreparedStatement statement;
+
         try {
             statement = connection.prepareStatement("SELECT id FROM users WHERE username=?");
             statement.setString(1, username);
@@ -143,7 +153,7 @@ public class DBUserRepository implements UserRepository {
     public User updateBalance(int userId, double newBalance) {
         PreparedStatement statement;
         User u;
-        boolean isSuccessfulUpdate = false;
+
         try {
             statement = connection.prepareStatement("UPDATE users SET balance=? WHERE id=?");
             statement.setDouble(1, newBalance);

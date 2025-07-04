@@ -1,6 +1,6 @@
 package com.example.tradingapp.controllers;
 
-import com.example.tradingapp.exceptions.UnauthorisedException;
+import com.example.tradingapp.exceptions.BadRequestException;
 import com.example.tradingapp.model.dtos.LoginUserDTO;
 import com.example.tradingapp.model.dtos.RegisterUserDTO;
 import com.example.tradingapp.model.dtos.ResponseUserDTO;
@@ -27,6 +27,9 @@ public class UserController extends BaseController {
 
     @PostMapping("/login")
     public ResponseUserDTO login(@RequestBody LoginUserDTO userDTO, HttpSession session) {
+        if (session.getAttribute(LOGGED) != null) {
+            throw new BadRequestException("You are already logged in");
+        }
         ResponseUserDTO dto = userService.login(userDTO);
         session.setAttribute(LOGGED, true);
         session.setAttribute(USER_ID, dto.getId());
@@ -51,5 +54,10 @@ public class UserController extends BaseController {
         validateLogged(session);
         int id = (int) session.getAttribute(USER_ID);
         return userService.reset(id);
+    }
+
+    @PostMapping("/logout")
+    public void logout(@RequestBody LoginUserDTO userDTO, HttpSession session) {
+        session.invalidate();
     }
 }
